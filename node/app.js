@@ -144,6 +144,7 @@ if(process.env.ENV==="local") {
 else  {
   app.use('/app', authRequired);
   app.use('/app/*', authRequired);
+  app.use('app/pita.html', authRequired);
   app.use('/pita', authRequired);
   app.use('/pita/*', authRequired);
 }
@@ -213,7 +214,7 @@ index.get(
   (req, res) => {
     let start= Date.now();
 
-    let redirect = req.session.oauth2return || '/app/lesfleurs';
+    let redirect = req.session.oauth2return || '/app/pita.html';
     if (!process.env.GOOGLE_USERS.split(",").includes(req.session.passport.user.email.value)) {
       redirect = "/nouser";
       delete req.session.passport;
