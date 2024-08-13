@@ -1,0 +1,122 @@
+
+body {
+  font-family:  'Open Sans', sans-serif; font-size: 18px; 
+  background-image: url("../images/bg-black.jpg");
+  background-color: black;
+  background-size: cover;
+}
+
+a {
+  color: #FFFFFF;
+}
+
+h2 {
+  font-family:  'Open Sans', sans-serif; font-size: 20px; 
+  color: #FFFFFF;
+}
+
+h1 {
+  font-family:  'Open Sans', sans-serif; font-size: 32px; 
+  color: #FFFFFF;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('Open Sans-VariableFont_wdth'),
+       url('../fonts/OpenSans-VariableFont_wdth,wght.ttf') format('truetype'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+}
+
+.main {
+  padding: 0px 0px;
+}
+
+th {
+  font-size: 25px;
+  font-family:  'Open Sans', sans-serif; font-size: 24px; 
+  color: white;
+}
+
+td {
+  font-size: 25px;
+  font-family:  'Open Sans', sans-serif; font-size: 24px; 
+  color: white;
+}
+a {
+  text-decoration: none;
+  font-size: 20px;
+  display: block;
+  font-family:  'Open Sans', sans-serif; font-size: 24px; 
+}
+
+h2 {
+  font-family:  'Open Sans', sans-serif; font-size: 32px; 
+}
+
+a:hover {
+  color: #727272;
+}
+
+input { 
+    border: 2;
+    border-color: white;
+    background: transparent;
+    font-family:  'Open Sans', sans-serif; font-size: 24px; color: white; text-align: center
+}
+input:focus {
+    outline: none !important;
+    border:1px solid 504848;
+    box-shadow: 0 0 0px white;
+}
+
+textarea { 
+  border: 2;
+  border-color: white;
+  background: transparent;
+  font-family:  'Open Sans', sans-serif; font-size: 24px; color: white; text-align: center
+}
+textarea:focus {
+  outline: none !important;
+  border:1px solid 504848;
+  box-shadow: 0 0 0px white;
+}
+
+/* button */
+button.btn {
+  border: 2;
+  border-color: white;
+  background: transparent;
+  color: white;
+  display: inline-flex;
+  justify-content: center; /* center the content horizontally */
+  align-items: center; /* center the content vertically */
+  --padding-x: 1.2em;
+  font-family:  'Open Sans', sans-serif; font-size: 24px; text-align: center
+}
+
+img.icon {
+  content: url("../images/pita256-grey.png");
+  width: 128px;
+  position: fixed;
+  bottom: 2px;
+  right: 2px;
+  opacity: 0.32;
+}
+
+    
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: black;
+  }
+
+  /* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+  

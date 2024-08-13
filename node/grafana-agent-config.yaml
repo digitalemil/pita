@@ -1,0 +1,76 @@
+logs:
+  configs:
+    - clients:
+        - basic_auth:
+            password: ${LOGSPASSWORD}
+            username: ${LOGSUSER}
+          url: ${LOGSURL}
+      name: ${APP}
+      positions:
+        filename: /tmp/positions.yaml
+      scrape_configs:
+        - job_name: ${APP}
+          static_configs:
+          - labels: 
+              __path__: ${LOGFOLDER}/*.log
+              app: ${APP}
+              component: appserver
+            targets:
+              - localhost
+      target_config:
+        sync_period: 10s
+metrics:
+  wal_directory: /tmp/wal
+  global:
+    scrape_interval: 15s
+  configs:
+    - name: ${APP}
+      scrape_configs:
+        - job_name: local_scrape
+          static_configs:
+            - targets: ['127.0.0.1:12345']
+        - job_name: ${APP}
+          scrape_interval: 15s
+          metrics_path: /_status/vars
+          static_configs:
+            - targets: ['127.0.0.1:${PORT}']
+            - labels:
+                app: ${APP}
+                component: appserver
+      remote_write:
+        - url: ${METRICSURL}
+          basic_auth:
+            username: ${METRICSUSER}
+            password: ${METRICSPASSWORD}
+traces:
+  configs:
+    - name: ${APP}
+      automatic_logging:
+        backend: logs_instance
+        logs_instance_name: ${APP}
+        roots: true
+      service_graphs:
+        enabled: true
+      remote_write:
+        - endpoint: ${TRACESENDPOINT}
+          basic_auth:
+            username: ${TRACESUSER}
+            password: ${TRACESPASSWORD}
+      receivers:
+        otlp:
+          protocols:
+            grpc:
+            http:
+              cors:
+                allowed_origins:
+                  - '*'
+                max_age: 7200
+      tail_sampling:
+        policies:
+         - type: string_attribute
+           string_attribute:
+             key: http.target
+             values:
+               - ^\/(?:_status\/.*|healthcheck)$
+             enabled_regex_matching: true
+             invert_match: true
