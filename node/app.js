@@ -247,6 +247,12 @@ app.use(function (err, req, res, next) {
     .observe(new Date() - start);
  });
 
- 
+ global.getUser= function (req) {
+  let user= "local";
+  if(process.env.ENV!='local')
+    user= req.session.passport.user.email.value;
+  return user;
+}
+
 
 module.exports = app;

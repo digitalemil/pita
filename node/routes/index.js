@@ -3,7 +3,7 @@ let router = express.Router();
 
 router.get('/app/pita.html', function (req, res, next) {
   let start = new Date();
-  res.render('pita', { });
+  res.render('pita', { user: global.getUser(req)});
   global.httpRequestDurationMilliseconds
     .labels(req.route.path, res.statusCode, req.method)
     .observe(new Date() - start);
