@@ -17,8 +17,6 @@ COPY package.json /opt/app
 COPY o11y.js /opt/app
 COPY grafana-agent-config.yaml /opt/app
 
-RUN chmod +x /opt/app/start.sh
-
 RUN cd /opt/app; npm install
 
 ENTRYPOINT node ./bin/www
