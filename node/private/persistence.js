@@ -81,7 +81,7 @@ async function executeTxWithRetry(tx, ...args) {
             }
         }
         catch (err) {
-            global.logger.log("exeTx: error", err.toString());
+            global.logger.log("error", err.toString());
             global.sqlIsUp.set(0);
             return result;
         }

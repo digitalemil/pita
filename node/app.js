@@ -104,12 +104,14 @@ app.use(passport.session());
 // in, it will redirect the user to authorize the application and then return
 // them to the original URL they requested.
 function authRequired(req, res, next) {
+  console.log("Auth required")
   if (!req.user) {
     if (req.session.authorizedByKey == true) {
       next();
       return;
     }
     req.session.oauth2return = req.originalUrl;
+    console.log("Redirect to auth/login");
     return res.redirect('/auth/login');
   }
   next();
@@ -128,7 +130,17 @@ function addTemplateVariables(req, res, next) {
   next();
 }
 
-
+if(process.env.ENV==="local") {
+  console.log("Local env. No auth");
+}
+else  {
+  console.log("Setup Auth...");
+  app.use('/app', authRequired);
+  app.use('/app/*', authRequired);
+  app.use('/app/pita.html', authRequired);
+  app.use('/pita', authRequired);
+  app.use('/pita/*', authRequired);
+}
 let index = require('./routes/index.js');
 let pita = require('./routes/pita-router.js');
 
@@ -136,18 +148,9 @@ app.use('/', index);
 
 const { executeSQL } = require("./private/persistence.js");
 pita.initPita(executeSQL, "me", process.env.CODE);
-app.use("/pita", pita);
 
-if(process.env.ENV==="local") {
-  console.log("Local env. No auth");
-}
-else  {
-  app.use('/app', authRequired);
-  app.use('/app/*', authRequired);
-  app.use('app/pita.html', authRequired);
-  app.use('/pita', authRequired);
-  app.use('/pita/*', authRequired);
-}
+
+app.use("/pita", pita);
 
 
 app.use(function (req, res, next) {
@@ -171,6 +174,7 @@ index.get(
   // Save the url of the user's current page so the app can redirect back to
   // it after authorization
   (req, res, next) => {
+    console.log("auth/login");
     let start= Date.now();
  
     if (req.query.return) {
@@ -219,7 +223,8 @@ index.get(
       redirect = "/nouser";
       delete req.session.passport;
     }
-
+    global.logger.log("info", "User logged in: " + JSON.stringify(req.session.passport));
+   
     delete req.session.oauth2return;
     res.redirect(redirect);
     global.httpRequestDurationMilliseconds
