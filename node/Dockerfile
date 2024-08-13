@@ -17,6 +17,7 @@ COPY package.json /opt/app
 COPY o11y.js /opt/app
 COPY grafana-agent-config.yaml /opt/app
 COPY start.sh /opt/app
+RUN chmod +x /opt/app/start.sh
 
 RUN cd /opt/app; npm install
 

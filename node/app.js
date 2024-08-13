@@ -104,14 +104,12 @@ app.use(passport.session());
 // in, it will redirect the user to authorize the application and then return
 // them to the original URL they requested.
 function authRequired(req, res, next) {
-  console.log("Auth required")
   if (!req.user) {
     if (req.session.authorizedByKey == true) {
       next();
       return;
     }
     req.session.oauth2return = req.originalUrl;
-    console.log("Redirect to auth/login");
     return res.redirect('/auth/login');
   }
   next();
