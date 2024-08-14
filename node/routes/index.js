@@ -42,12 +42,8 @@ global.sleepRequest= async function () {
 }
 
 router.get("/sleep", async function (req, res, next) {
-  let start = new Date();
   await sleep(process.env.SLEEP);
   res.send("ok");
-  global.httpRequestDurationMilliseconds
-    .labels(req.route.path, res.statusCode, req.method)
-    .observe(new Date() - start);
-});
+ });
 
 module.exports = router;
