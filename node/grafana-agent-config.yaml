@@ -70,6 +70,6 @@ traces:
            string_attribute:
              key: http.target
              values:
-               - ^\/(?:_status\/.*|healthcheck)$
+               - ^\/(?:_status\/.*|healthcheck|sleep)$
              enabled_regex_matching: true
              invert_match: true
