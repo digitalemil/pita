@@ -59,8 +59,8 @@ traces:
           sending_queue:
             queue_size: 100000
       batch:
-        timeout: 5s
-        send_batch_size: 16
+        timeout: 16s
+        send_batch_size: 256
       receivers:
         otlp:
           protocols:
