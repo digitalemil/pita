@@ -58,6 +58,9 @@ traces:
             password: ${TRACESPASSWORD}
           sending_queue:
             queue_size: 100000
+      batch:
+        timeout: 5s
+        send_batch_size: 16
       receivers:
         otlp:
           protocols:
