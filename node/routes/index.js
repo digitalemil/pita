@@ -38,7 +38,7 @@ global.sleep= function (ms) {
 }
 
 global.sleepRequest= async function () {
-  await axios.get("http://localhost:"+process.env.PORT+"/sleep");
+  await axios.get(process.env.SLEEPURL);
 }
 
 router.get("/sleep", async function (req, res, next) {
