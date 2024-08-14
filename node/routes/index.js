@@ -1,5 +1,6 @@
 let express = require("express");
 let router = express.Router();
+const axios = require('axios');
 
 router.get('/app/pita.html', async function (req, res, next) {
   let start = new Date();
@@ -7,7 +8,7 @@ router.get('/app/pita.html', async function (req, res, next) {
   global.httpRequestDurationMilliseconds
     .labels(req.route.path, res.statusCode, req.method)
     .observe(new Date() - start);
-  await global.sleep(8);
+  await global.sleepRequest();
 });
 
 router.get("/", function (req, res, next) {
@@ -26,10 +27,27 @@ router.get("/nouser", function (req, res, next) {
     .observe(new Date() - start);
 });
 
+global.sleepRequest= async function () {
+  await axios.get('/user?ID=12345');
+}
+
 global.sleep= function (ms) {
   return new Promise((resolve) => {
     setTimeout(resolve, ms);
   });
 }
+
+global.sleepRequest= async function () {
+  await axios.get("http://localhost:"+process.env.PORT+"/sleep");
+}
+
+router.get("/sleep", async function (req, res, next) {
+  let start = new Date();
+  await sleep(8000);
+  res.send("ok");
+  global.httpRequestDurationMilliseconds
+    .labels(req.route.path, res.statusCode, req.method)
+    .observe(new Date() - start);
+});
 
 module.exports = router;

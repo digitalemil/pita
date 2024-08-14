@@ -6,7 +6,7 @@ router.get(['/pitas'], async function (req, res, next) {
   let rows= await getPitas(global.getUser(req));
   res.send(JSON.stringify(rows));
   global.httpRequestDurationMilliseconds.labels(req.route.path.toString(), res.statusCode.toString(), req.method.toString()).observe(new Date() - start)
-  await global.sleep(8);
+  await global.sleepRequest();
 });
 
 router.post(['/createpita'], async function (req, res, next) {
@@ -14,7 +14,7 @@ router.post(['/createpita'], async function (req, res, next) {
   let id= await createNewPita(global.getUser(req), req.body.x, req.body.y);
   res.send(id);
   global.httpRequestDurationMilliseconds.labels(req.route.path.toString(), res.statusCode.toString(), req.method.toString()).observe(new Date() - start)
-  await global.sleep(8);
+  await global.sleepRequest();
 });
 
 router.post(['/updatepitatext'], async function (req, res, next) {
@@ -23,7 +23,7 @@ router.post(['/updatepitatext'], async function (req, res, next) {
   let id= await updatePitaText(req.body.id, req.body.text, global.getUser(req));
   res.send("");
   global.httpRequestDurationMilliseconds.labels(req.route.path.toString(), res.statusCode.toString(), req.method.toString()).observe(new Date() - start)
-  await global.sleep(8);
+  await global.sleepRequest();
 });
 
 router.post(['/updatepitapos'], async function (req, res, next) {
@@ -31,14 +31,14 @@ router.post(['/updatepitapos'], async function (req, res, next) {
   let id= await updatePitaPos(req.body.id, req.body.x, req.body.y, global.getUser(req));
   res.send("");
   global.httpRequestDurationMilliseconds.labels(req.route.path.toString(), res.statusCode.toString(), req.method.toString()).observe(new Date() - start)
-  await global.sleep(8);
+  await global.sleepRequest();
 });
 
 router.post(['/deletepita'], async function (req, res, next) {
   let start = new Date();
   await deletePita(req.body.id, global.getUser(req));
   global.httpRequestDurationMilliseconds.labels(req.route.path.toString(), res.statusCode.toString(), req.method.toString()).observe(new Date() - start)
-  await global.sleep(8);
+  await global.sleepRequest();
 });
 
 let executeSQL= null;
