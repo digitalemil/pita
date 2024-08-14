@@ -45,12 +45,6 @@ metrics:
 traces:
   configs:
     - name: ${APP}
-      automatic_logging:
-        backend: logs_instance
-        logs_instance_name: ${APP}
-        roots: true
-      service_graphs:
-        enabled: true
       remote_write:
         - endpoint: ${TRACESENDPOINT}
           basic_auth:
