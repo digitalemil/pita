@@ -114,6 +114,13 @@ global.sqlUpserts= new prom_client.Counter(
     labelNames: ['upserts']
   }
 );
+global.sqlCreates= new prom_client.Counter(
+  {
+    name: 'sql_creates_count',
+    help: 'Number of Creates',
+    labelNames: ['creates']
+  }
+);
 global.sqlTransactions= new prom_client.Counter(
   {
     name: 'sql_transactions_count',

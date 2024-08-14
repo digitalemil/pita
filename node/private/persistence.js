@@ -104,6 +104,8 @@ async function executeQuery(con, query, values) {
     if (promlabel.includes("values")) {
         promlabel = query.substring(0, promlabel.indexOf("values"));
     }
+    if (lq.startsWith("create"))
+        global.sqlInserts.labels(promlabel).inc();
     if (lq.startsWith("insert"))
         global.sqlInserts.labels(promlabel).inc();
     if (lq.startsWith("delete"))
