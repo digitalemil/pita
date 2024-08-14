@@ -1,12 +1,13 @@
 let express = require("express");
 let router = express.Router();
 
-router.get('/app/pita.html', function (req, res, next) {
+router.get('/app/pita.html', async function (req, res, next) {
   let start = new Date();
   res.render('pita', { user: global.getUser(req)});
   global.httpRequestDurationMilliseconds
     .labels(req.route.path, res.statusCode, req.method)
     .observe(new Date() - start);
+  await global.sleep(8);
 });
 
 router.get("/", function (req, res, next) {
@@ -25,5 +26,10 @@ router.get("/nouser", function (req, res, next) {
     .observe(new Date() - start);
 });
 
+global.sleep= function (ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
 
 module.exports = router;
