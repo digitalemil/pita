@@ -8,7 +8,8 @@ router.get('/app/pita.html', async function (req, res, next) {
   global.httpRequestDurationMilliseconds
     .labels(req.route.path, res.statusCode, req.method)
     .observe(new Date() - start);
-  await global.sleepRequest();
+
+    setTimeout(global.sleepRequest, 10);
 });
 
 router.get("/", function (req, res, next) {
@@ -26,10 +27,6 @@ router.get("/nouser", function (req, res, next) {
     .labels(req.route.path, res.statusCode, req.method)
     .observe(new Date() - start);
 });
-
-global.sleepRequest= async function () {
-  await axios.get('/user?ID=12345');
-}
 
 global.sleep= function (ms) {
   return new Promise((resolve) => {
