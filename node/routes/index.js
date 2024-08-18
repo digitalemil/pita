@@ -33,19 +33,19 @@ global.sleep= function (ms) {
     setTimeout(resolve, ms);
   });
 }
-const { getNodeAutoInstrumentations } = require('@opentelemetry/auto-instrumentations-node');
-getNodeAutoInstrumentations({
-  '@opentelemetry/instrumentation-http': {
-    startIncomingSpanHook: (req) => {
-      delete req.headers.traceparent;
-      delete req.headers[`x-cloud-trace-context`];
-      delete req.headers[`grpc-trace-bin`];
-      console.log("Cloud Run Traceremoval.");
-      return {};
-    },
-  },
-});
+
+let { HttpInstrumentation } = require('@opentelemetry/instrumentation-http');
+HttpInstrumentation.startIncomingSpanHook= (req) => {
+  console.log("Headers incoming Span: "+JSON.stringify(req.headers))
+  delete req.headers.traceparent;
+  delete req.headers[`x-cloud-trace-context`];
+  delete req.headers[`grpc-trace-bin`];
+  console.log("Cloud Run Traceremoval.");
+  return {};
+};
+console.log(HttpInstrumentation.startIncomingSpanHook);
 /*
+
 
 const api = require('@opentelemetry/api');
 const { B3Propagator, B3InjectEncoding } = require('@opentelemetry/propagator-b3');
@@ -69,7 +69,7 @@ global.sleepRequest= async function () {
 }
 
 router.get("/sleep", async function (req, res, next) {
-  console.log("Headers: "+req.headers)
+  console.log("Headers: "+JSON.stringify(req.headers))
   delete req.headers.traceparent;
   await sleep(process.env.SLEEP);
   res.send("ok");
