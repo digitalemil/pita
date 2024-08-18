@@ -34,12 +34,22 @@ global.sleep= function (ms) {
   });
 }
 
-const opentelemetry = require('@opentelemetry/api');
-global.sleepRequest= async function () {
-  const activeSpan = opentelemetry.trace.getActiveSpan();
-  console.log("Active Span: "+activeSpan);
-  activeSpan.end();  
+const { getNodeAutoInstrumentations } = require('@opentelemetry/auto-instrumentations-node');
 
+getNodeAutoInstrumentations({
+  '@opentelemetry/instrumentation-http': {
+    startIncomingSpanHook: (req) => {
+      delete req.headers.traceparent;
+      delete req.headers[`x-cloud-trace-context`];
+      delete req.headers[`grpc-trace-bin`];
+
+      return {};
+    },
+  },
+});
+
+global.sleepRequest= async function () {
+  
   await axios.get(process.env.SLEEPURL);
 }
 
