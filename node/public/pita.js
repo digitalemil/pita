@@ -92,10 +92,11 @@ function createPita() {
 function addPita(id, text, x, y, persist, dbid) {
     let pita = document.createElement('div');
     pita.setAttribute("id", id);
-    pita.innerHTML = "<div style='position: absolute; top: 0px; left: 0px; background: #808080; height: 16%; width:100%;' id='" + id + "handle'><div onclick='deletePita(\"" + id + "\")' style='font-size: 18px; position: absolute; top: -2px; right: 4px; height: 24%;'>X</div></div><div style='text-align: center;'><p><textarea id='" + id + "textarea'   style='font-size: 18px; text-align:left; color: #0F0F0F; resize: none; outline: none; border: 0; position: absolute; top:18%; left: 2%; width:96%; height:76%'>" + text + "</textarea></div>";
+  
+    pita.innerHTML = "<div style='position: absolute; top: 0px; left: 0px; background: #808080; height: 16%; width:100%;' id='" + id + "handle'><div onclick='deletePita(\"" + id + "\")' style='font-size: 18px; position: absolute; top: -2px; right: 4px; height: 24%;'>X</div></div><div style='text-align: center;'><p><textarea id='" + id + "textarea'   style='font-size: 18px; text-align:left; color: #0F0F0F; resize: none; outline: none; border: 0; position: absolute; top:18%; left: 2%; width:96%; height:76%' savedtext='"+text+"'>" + text + "</textarea></div>";
     pita.style.cssText = 'z-index: 100; box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7); padding: 8px 2px 2px; cursor: move; position:fixed;left:' + x + 'px;top:' + y + 'px;width:128px;height:128px;opacity:0.6;background:#FFFFFF none repeat scroll 0;';
     document.body.appendChild(pita);
-    document.getElementById(id+"textarea").setAttribute("savedtext", text);
+    //document.getElementById(id+"textarea").setAttribute("savedtext", text);
     pitas++;
     if (persist) {
         let xhttp = new XMLHttpRequest();
@@ -163,7 +164,7 @@ function textChecker() {
         return;   
   for(let p= 0; p< pitas; p++) {
         let pita= document.getElementById("pita"+p+"textarea");
-        if(pita.savedtext===pita.value)
+        if(pita.getAttribute("savedtext")===pita.value)
             continue;
         let xhttp = new XMLHttpRequest();
         xhttp.open("POST", "/pita/updatepitatext", true);
@@ -172,7 +173,8 @@ function textChecker() {
                 id: document.getElementById("pita"+p).getAttribute("name"),
                 text: pita.value
         }));
-        pita.savedtext= pita.value;
+   //     pita.savedtext= pita.value;
+        pita.savedtext= pita.setAttribute("savedtext", pita.value);
     }
 }
 addPitaPlus(8, 8);
