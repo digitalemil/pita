@@ -34,35 +34,6 @@ global.sleep= function (ms) {
   });
 }
 
-let { HttpInstrumentation } = require('@opentelemetry/instrumentation-http');
-HttpInstrumentation.startIncomingSpanHook= (req) => {
-  console.log("Headers incoming Span: "+JSON.stringify(req.headers))
-  delete req.headers.traceparent;
-  delete req.headers[`x-cloud-trace-context`];
-  delete req.headers[`grpc-trace-bin`];
-  console.log("Cloud Run Traceremoval.");
-  return {};
-};
-console.log(HttpInstrumentation.startIncomingSpanHook);
-/*
-
-
-const api = require('@opentelemetry/api');
-const { B3Propagator, B3InjectEncoding } = require('@opentelemetry/propagator-b3');
-
-api.propagation.setGlobalPropagator(
-  new B3Propagator({ injectEncoding: B3InjectEncoding.MULTI_HEADER })
-);
-
-const { B3Propagator } = require('@opentelemetry/propagator-b3');
-const { NodeTracerProvider } = require('@opentelemetry/sdk-trace-node');
-
-const tracerProvider = new NodeTracerProvider();
-
-tracerProvider.register({
-  propagator: new B3Propagator(),
-});
-*/
 global.sleepRequest= async function () {
   
   await axios.get(process.env.SLEEPURL);
