@@ -6,6 +6,7 @@ RUN curl -LJO https://github.com/grafana/agent/releases/download/v0.39.0-rc.0/gr
 RUN unzip grafana-agent-linux-amd64.zip 
 RUN chmod +x grafana-agent-linux-amd64.zip 
 
+RUN apt-get update -y
 RUN apt-get install --yes nginx
 
 COPY bin /opt/app/bin
@@ -18,6 +19,8 @@ COPY package.json /opt/app
 COPY o11y.js /opt/app
 COPY grafana-agent-config.yaml /opt/app
 COPY start.sh /opt/app
+
+COPY nginx.conf /etc/nginx/nginx.conf
 RUN chmod +x /opt/app/start.sh
 
 RUN cd /opt/app; npm install
