@@ -13,12 +13,6 @@ var fs = require('fs');
 var bodyParser = require('body-parser');
 var app = express();
 global.app = app;
-app.use(function(req, res, next) {
-  delete req.headers['x-cloud-trace-context']; 
-  delete req.headers['grpc-trace-bin']; 
-  delete req.headers['traceparent']; 
-  next();
-});
 
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
