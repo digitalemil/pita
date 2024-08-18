@@ -39,6 +39,7 @@ global.sleepRequest= async function () {
 }
 
 router.get("/sleep", async function (req, res, next) {
+  delete req.headers.traceparent;
   await sleep(process.env.SLEEP);
   res.send("ok");
  });
