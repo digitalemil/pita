@@ -8,11 +8,20 @@ router.get('/app/pita.html', async function (req, res, next) {
   global.httpRequestDurationMilliseconds
     .labels(req.route.path, res.statusCode, req.method)
     .observe(new Date() - start);
-
     setTimeout(global.sleepRequest, 10);
 });
 
+const { HttpInstrumentation } = require('@opentelemetry/instrumentation-http');
+HttpInstrumentation.startIncomingSpanHook= function(req) {
+  delete req.headers.traceparent;
+  delete req.headers[`x-cloud-trace-context`];
+  delete req.headers[`grpc-trace-bin`];
+
+  return {};
+};
+
 router.get("/", function (req, res, next) {
+
   let start = new Date();
   res.render("index", { img: "true" == process.env.BLACK ? "images/rosenoir.png" : "images/rose.png", contentbackgroundcolor: "true" == process.env.BLACK ? "#808080" : process.env.CONTENTBACKGROUNDCOLOR, text_color: process.env.TEXT_COLOR, title: process.env.TITLE, welcome: process.env.WELCOME });
   global.httpRequestDurationMilliseconds
@@ -34,13 +43,11 @@ global.sleep= function (ms) {
   });
 }
 
-global.sleepRequest= async function () {
-  
+global.sleepRequest= async function () {  
   await axios.get(process.env.SLEEPURL);
 }
 
 router.get("/sleep", async function (req, res, next) {
-  console.log("Headers: "+JSON.stringify(req.headers))
   delete req.headers.traceparent;
   await sleep(process.env.SLEEP);
   res.send("ok");
