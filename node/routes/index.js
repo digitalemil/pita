@@ -34,7 +34,12 @@ global.sleep= function (ms) {
   });
 }
 
+const opentelemetry = require('@opentelemetry/api');
 global.sleepRequest= async function () {
+  const activeSpan = opentelemetry.trace.getActiveSpan();
+  console.log("Active Span: "+activeSpan);
+  activeSpan.end();  
+
   await axios.get(process.env.SLEEPURL);
 }
 
