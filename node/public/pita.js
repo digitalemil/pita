@@ -37,7 +37,7 @@ function getPitas() {
         if (xhttp.readyState == XMLHttpRequest.DONE) {
             let p = JSON.parse(xhttp.responseText);
             for (let i = 0; i < p.length; i++) {
-                addPita("pita"+i, p[i].text, p[i].x, p[i].y, false, p[i].id);
+                addPita("pita"+i, p[i].text, p[i].x, p[i].y, false, p[i].id, p[i].w, p[i].h, p[i].color, p[i].textcolor);
             }
         }
     }
@@ -89,12 +89,26 @@ function createPita() {
         showhidePita();
 }
 
-function addPita(id, text, x, y, persist, dbid) {
+function addPita(id, text, x, y, persist, dbid, wdb, hdb, colordb, textcolordb) {
     let pita = document.createElement('div');
     pita.setAttribute("id", id);
-  
-    pita.innerHTML = "<div style='position: absolute; top: 0px; left: 0px; background: #808080; height: 16%; width:100%;' id='" + id + "handle'><div onclick='deletePita(\"" + id + "\")' style='font-size: 18px; position: absolute; top: -2px; right: 4px; height: 24%;'>X</div></div><div style='text-align: center;'><p><textarea id='" + id + "textarea'   style='font-size: 18px; text-align:left; color: #0F0F0F; resize: none; outline: none; border: 0; position: absolute; top:18%; left: 2%; width:96%; height:76%' savedtext='"+text+"'>" + text + "</textarea></div>";
-    pita.style.cssText = 'z-index: 100; box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7); padding: 8px 2px 2px; cursor: move; position:fixed;left:' + x + 'px;top:' + y + 'px;width:128px;height:128px;opacity:0.6;background:#FFFFFF none repeat scroll 0;';
+    let background= "#808080";
+    let color= "#0F0F0F";
+    if(textcolordb!= undefined)
+        color= textcolordb;
+    if(colordb!= undefined)
+        background= colordb;
+    let w= 128;
+    let h= 128;
+    if(wdb!= undefined) {
+        w= wdb;     
+    }
+    if(hdb!= undefined) {
+        h= hdb;     
+    }
+
+    pita.innerHTML = "<div style='position: absolute; top: 0px; left: 0px; filter: brightness(85%); background: "+background+"; height: 16%; width:100%;' id='" + id + "handle'><div onclick='deletePita(\"" + id + "\")' style='font-size: 18px; position: absolute; top: -2px; right: 4px; height: 24%;'>X</div></div><div style='text-align: center;'><p><textarea id='" + id + "textarea'   style='font-size: 18px; text-align:left; color:"+color+"; resize: none; outline: none; border: 0; position: absolute; top:18%; left: 2%; width:96%; height:76%' savedtext='"+text+"'>" + text + "</textarea></div>";
+    pita.style.cssText = 'z-index: 100; box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7); padding: 8px 2px 2px; cursor: move; position:fixed;left:' + x + 'px;top:' + y + 'px;width:'+w+'px;height:'+h+'px;opacity:0.6;background:'+background+' none repeat scroll 0;';
     document.body.appendChild(pita);
     //document.getElementById(id+"textarea").setAttribute("savedtext", text);
     pitas++;
@@ -107,7 +121,7 @@ function addPita(id, text, x, y, persist, dbid) {
                 pita.setAttribute("name", xhttp.responseText);
             }
         }
-        xhttp.send(JSON.stringify({ x: x, y: y }));
+        xhttp.send(JSON.stringify({ x: x, y: y, w: w, h: h }));
     }
     else {
         pita.setAttribute("name", dbid); 
@@ -173,8 +187,7 @@ function textChecker() {
                 id: document.getElementById("pita"+p).getAttribute("name"),
                 text: pita.value
         }));
-   //     pita.savedtext= pita.value;
-        pita.savedtext= pita.setAttribute("savedtext", pita.value);
+        pita.setAttribute("savedtext", pita.value);
     }
 }
 addPitaPlus(8, 8);
