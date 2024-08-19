@@ -1,9 +1,3 @@
-# 
-
-# 
-
-# 
-
 # Welcome to Pita\!
 
 # Ever wanted to run an app like a pro but for (nearly) free?
@@ -17,7 +11,7 @@ Over the past years I gained quite a bit of experience with architecting, develo
 Nowadays it all starts with data, right? So we can't compromise on our data-layer. Therefor I choose CockroachDB and luckily there is a free tier available: https://cockroachlabs.cloud/signup https://www.cockroachlabs.com/pricing/  
 As you can see: No credit card required and for zero dollars you can roughly execute 10 SQL queries/s 24 by 7\. Great\! Love it. Way more than most of my light apps need and the distributed nature of CockroachDB guarantees the high-availability and resilience of my data layer. Also pretty cool to have a RDBMS always available with a SQL-shell ready waiting for you if you quickly want to test a query\! Data-layer? Solved.
 
-![][image](https://storage.googleapis.com/thegym-public/cockroachcloudfree.png)  
+![](https://storage.googleapis.com/thegym-public/cockroachcloudfree.png)  
 Let's continue with our shopping list:  
 \- Developer tooling & IDE: Google Cloud Shell  
 \- Repo: Github  
@@ -29,7 +23,7 @@ Let's continue with our shopping list:
 \- Database: Clockroach Cloud Free Tier
 
 So what we get for free looks like the following:  
-![][image](https://storage.googleapis.com/thegym-public/pita.drawio.png)
+![](https://storage.googleapis.com/thegym-public/pita.drawio.png)
 
 You might wonder about the programming language we are going to use: I mostly use Node but we will eventually run a docker container so what I describe is applicable as long as it runs in docker.
 
