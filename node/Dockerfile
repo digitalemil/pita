@@ -16,7 +16,6 @@ COPY routes /opt/app/routes
 COPY views /opt/app/views
 COPY app.js /opt/app
 COPY package.json /opt/app
-COPY o11y.js /opt/app
 COPY grafana-agent-config.yaml /opt/app
 COPY start.sh /opt/app
 
