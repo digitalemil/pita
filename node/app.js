@@ -10,12 +10,12 @@ let fs = require('fs');
 let bodyParser = require('body-parser');
 app= global.app = express();
 
-require("./o11y");
+require("./private/o11y");
 
 const { executeSQL } = require("./private/persistence.js");
 
 const session = require('express-session');
-const { setupSession, setupIndexForAuth, authRequired} = require("./signinwithgoogle.js");
+const { setupSession, setupIndexForAuth, authRequired} = require("./private/signinwithgoogle.js");
 
 // Prepare sessions for Sign In With Google unless we run local
 if(! (process.env.ENV==="local")) {
