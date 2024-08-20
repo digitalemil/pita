@@ -1,7 +1,4 @@
-var app = global.app;
-
 let winston = require('winston');
-
 expressWinston = require('express-winston');
 
 Date.prototype.timeNow = function () {

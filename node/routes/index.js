@@ -11,17 +11,6 @@ router.get('/app/pita.html', async function (req, res, next) {
     setTimeout(global.sleepRequest, 10);
 });
 
-/*
-const { HttpInstrumentation } = require('@opentelemetry/instrumentation-http');
-HttpInstrumentation.startIncomingSpanHook= function(req) {
-  delete req.headers.traceparent;
-  delete req.headers[`x-cloud-trace-context`];
-  delete req.headers[`grpc-trace-bin`];
-
-  return {};
-};
-*/
-
 router.get("/", function (req, res, next) {
   let start = new Date();
   res.render("index", { img: "true" == process.env.BLACK ? "images/rosenoir.png" : "images/rose.png", contentbackgroundcolor: "true" == process.env.BLACK ? "#808080" : process.env.CONTENTBACKGROUNDCOLOR, text_color: process.env.TEXT_COLOR, title: process.env.TITLE, welcome: process.env.WELCOME });
