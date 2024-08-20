@@ -27,20 +27,21 @@ router.get("/nouser", function (req, res, next) {
     .observe(new Date() - start);
 });
 
-global.sleep= function (ms) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-}
 
 global.sleepRequest= async function () {  
   await axios.get(process.env.SLEEPURL);
 }
 
 router.get("/sleep", async function (req, res, next) {
-  delete req.headers.traceparent;
-  await sleep(process.env.SLEEP);
+  await sleep(process.env.SLEEP)
   res.send("ok");
  });
+
+async function sleep(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+};
+
 
 module.exports = router;

@@ -53,7 +53,7 @@ async function executeSQLinTx(sql, values) {
         con.release();
         global.sqlCommits.inc();
 
-        global.logger.log("info", "SQL executed. ret= '" + JSON.stringify(ret) + "'. Transaction commited. Duration: " + (Date.now() - start) + " ms.");
+        global.logger.log("info", "SQL executed. Transaction commited. Duration: " + (Date.now() - start) + " ms.");
     }
     else {
         global.logger.error("error", "No database connection!");
