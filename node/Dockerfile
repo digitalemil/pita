@@ -1,4 +1,4 @@
-FROM node:hydrogen
+FROM oven/bun:latest
 
 WORKDIR /opt/app
 
@@ -22,6 +22,6 @@ COPY start.sh /opt/app
 COPY nginx.conf /etc/nginx/nginx.conf
 RUN chmod +x /opt/app/start.sh
 
-RUN cd /opt/app; npm install
+RUN cd /opt/app; bun install
 
 ENTRYPOINT /opt/app/start.sh
