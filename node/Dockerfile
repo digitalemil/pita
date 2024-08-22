@@ -1,7 +1,7 @@
 FROM oven/bun:latest
 
 RUN apt-get update -y
-RUN apt-get install --yes nginx curl
+RUN apt-get install --yes nginx curl unzip
 
 WORKDIR /opt/app
 
