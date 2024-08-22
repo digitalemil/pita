@@ -1,13 +1,13 @@
 FROM oven/bun:latest
 
+RUN apt-get update -y
+RUN apt-get install --yes nginx curl
+
 WORKDIR /opt/app
 
 RUN curl -LJO https://github.com/grafana/agent/releases/download/v0.39.0-rc.0/grafana-agent-linux-amd64.zip
 RUN unzip grafana-agent-linux-amd64.zip 
 RUN chmod +x grafana-agent-linux-amd64.zip 
-
-RUN apt-get update -y
-RUN apt-get install --yes nginx
 
 COPY bin /opt/app/bin
 COPY public /opt/app/public
