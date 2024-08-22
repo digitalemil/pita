@@ -2,7 +2,7 @@
 
 # 
 
-# 
+![](https://github.com/digitalemil/pita/blob/main/node/public/images/pita256.png)  
 
 # Welcome to Pita\!
 
