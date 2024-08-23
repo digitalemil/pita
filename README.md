@@ -62,7 +62,7 @@ After setting up your database, create a new Cloud Run service (you might be ask
 ---
 
 Also make sure you pick a CO2 friendly region. 
-<img src="https://github.com/digitalemil/pita/blob/main/imgs/grafana-region.png" style="text-align: left;" width="480">       
+![](https://github.com/digitalemil/pita/blob/main/imgs/grafana-region.png)      
 
 ---
 
