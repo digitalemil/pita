@@ -23,7 +23,10 @@ COPY nginx.conf /etc/nginx/nginx.conf
 RUN chmod +x /opt/app/start.sh
 
 RUN cd /opt/app; bun install
+<<<<<<< HEAD
 
 RUN bun build --compile ./bin/www.js --preload @opentelemetry/auto-instrumentations-node/register --outfile pita
+=======
+>>>>>>> d0841c7a145cc04c45fe37e463e2d21a42061189
 
 ENTRYPOINT /opt/app/start.sh
