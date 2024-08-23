@@ -73,6 +73,17 @@ else  {
 }
 
 app.use('/', index);
+if(process.env.ENV==="local") {
+index.get(
+  '/logout', (req, res, next) => {
+      let start = Date.now();
+      global.logger.log("info", "Local user logged out.");
+      res.redirect("/");
+      global.httpRequestDurationMilliseconds
+          .labels(req.route.path, res.statusCode, req.method)
+          .observe(new Date() - start);
+  });
+}
 
 pita.initPita(executeSQL, tenant, process.env.CODE);
 app.use("/pita", pita);
