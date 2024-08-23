@@ -59,7 +59,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "11.2.0-74515"
+      "version": "11.3.0-74868"
     },
     {
       "type": "datasource",
@@ -101,7 +101,7 @@
       "type": "datasource",
       "id": "tempo",
       "name": "Tempo",
-      "version": "11.2.0-pre"
+      "version": "11.3.0-pre"
     },
     {
       "type": "panel",
@@ -176,7 +176,7 @@
         "content": "\n<div style=\"text-align: center;\">\n<img src=\"https://storage.googleapis.com/thegym-public/pita1980.png\" style=\"text-align: center; width: 50%;\"></img>\n</div>",
         "mode": "html"
       },
-      "pluginVersion": "11.2.0-74515",
+      "pluginVersion": "11.3.0-74868",
       "title": "Pitas!",
       "type": "text"
     },
@@ -469,7 +469,7 @@
         },
         "showAdvancedTypes": false
       },
-      "pluginVersion": "11.2.0-74515",
+      "pluginVersion": "11.3.0-74868",
       "targets": [
         {
           "datasource": {
@@ -499,6 +499,39 @@
       "type": "canvas"
     },
     {
+      "gridPos": {
+        "h": 6,
+        "w": 10,
+        "x": 14,
+        "y": 0
+      },
+      "id": 41,
+      "options": {
+        "alertInstanceLabelFilter": "",
+        "alertName": "",
+        "dashboardAlerts": false,
+        "folder": {
+          "title": "Les Fleurs",
+          "uid": "b000125b-db52-40f5-847f-3b0b4d2f9d2f"
+        },
+        "groupBy": [],
+        "groupMode": "default",
+        "maxItems": 20,
+        "sortOrder": 1,
+        "stateFilter": {
+          "error": true,
+          "firing": true,
+          "noData": false,
+          "normal": false,
+          "pending": true
+        },
+        "viewMode": "list"
+      },
+      "pluginVersion": "11.3.0-74868",
+      "title": "Alerts",
+      "type": "alertlist"
+    },
+    {
       "datasource": {
         "type": "grafana-postgresql-datasource",
         "uid": "${DS_COCKROACHDB_PITA SERVERLESS}"
@@ -526,10 +559,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 5,
-        "w": 3,
+        "h": 4,
+        "w": 5,
         "x": 14,
-        "y": 0
+        "y": 6
       },
       "id": 33,
       "options": {
@@ -549,7 +582,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "11.2.0-74515",
+      "pluginVersion": "11.3.0-74868",
       "targets": [
         {
           "datasource": {
@@ -585,39 +618,6 @@
       "type": "stat"
     },
     {
-      "gridPos": {
-        "h": 10,
-        "w": 7,
-        "x": 17,
-        "y": 0
-      },
-      "id": 41,
-      "options": {
-        "alertInstanceLabelFilter": "",
-        "alertName": "",
-        "dashboardAlerts": false,
-        "folder": {
-          "title": "Les Fleurs",
-          "uid": "b000125b-db52-40f5-847f-3b0b4d2f9d2f"
-        },
-        "groupBy": [],
-        "groupMode": "default",
-        "maxItems": 20,
-        "sortOrder": 1,
-        "stateFilter": {
-          "error": true,
-          "firing": true,
-          "noData": false,
-          "normal": false,
-          "pending": true
-        },
-        "viewMode": "list"
-      },
-      "pluginVersion": "11.2.0-74515",
-      "title": "Alerts",
-      "type": "alertlist"
-    },
-    {
       "datasource": {
         "type": "grafana-postgresql-datasource",
         "uid": "${DS_COCKROACHDB_PITA SERVERLESS}"
@@ -645,10 +645,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 5,
-        "w": 3,
-        "x": 14,
-        "y": 5
+        "h": 4,
+        "w": 5,
+        "x": 19,
+        "y": 6
       },
       "id": 38,
       "options": {
@@ -668,7 +668,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "11.2.0-74515",
+      "pluginVersion": "11.3.0-74868",
       "targets": [
         {
           "datasource": {
@@ -785,7 +785,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "11.2.0-74515",
+      "pluginVersion": "11.3.0-74868",
       "targets": [
         {
           "datasource": {
@@ -936,7 +936,7 @@
       },
       "gridPos": {
         "h": 7,
-        "w": 9,
+        "w": 6,
         "x": 8,
         "y": 10
       },
@@ -953,7 +953,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "11.2.0-74515",
+      "pluginVersion": "11.3.0-74868",
       "targets": [
         {
           "datasource": {
@@ -1019,8 +1019,8 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_THEGYM-PROMETHEUS-15S}"
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_COCKROACHDB_PITA SERVERLESS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1036,7 +1036,7 @@
             "barAlignment": 0,
             "barWidthFactor": 0.6,
             "drawStyle": "line",
-            "fillOpacity": 0,
+            "fillOpacity": 10,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
@@ -1045,7 +1045,7 @@
             },
             "insertNulls": false,
             "lineInterpolation": "linear",
-            "lineWidth": 1,
+            "lineWidth": 2,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
@@ -1070,36 +1070,20 @@
               },
               {
                 "color": "red",
-                "value": 1
+                "value": 80
               }
             ]
           }
         },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "{app=\"chameleon\", instance=\"127.0.0.1:3000\", job=\"chameleon/frontend\", route=\"/app/update\", service=\"nodeserver\", status=\"503\"}"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "dark-red",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          }
-        ]
+        "overrides": []
       },
       "gridPos": {
-        "h": 15,
-        "w": 7,
-        "x": 17,
+        "h": 7,
+        "w": 10,
+        "x": 14,
         "y": 10
       },
-      "id": 21,
+      "id": 44,
       "options": {
         "legend": {
           "calcs": [],
@@ -1112,21 +1096,54 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "11.2.0-74515",
+      "pluginVersion": "11.3.0-74868",
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_THEGYM-PROMETHEUS-15S}"
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_COCKROACHDB_PITA SERVERLESS}"
           },
           "editorMode": "code",
-          "expr": "http_request_duration_ms_count{status=~\"[45].*\"}",
-          "legendFormat": "{{route}}, {{status}}",
-          "range": true,
-          "refId": "A"
+          "format": "time_series",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "SELECT\n  $__timeGroupAlias(\"createdon\",'1m',0),\n  count(id) as id\nFROM pita\nWHERE\n  $__timeFilter(\"createdon\")\nGROUP BY time\nORDER BY time ",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "id",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "parameters": [
+                  {
+                    "name": "createdon",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "pita"
         }
       ],
-      "title": "HTTP errors per minute",
+      "title": "Created Pitas",
       "type": "timeseries"
     },
     {
@@ -1211,7 +1228,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "11.2.0-74515",
+      "pluginVersion": "11.3.0-74868",
       "targets": [
         {
           "datasource": {
@@ -1294,7 +1311,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 9,
+        "w": 6,
         "x": 8,
         "y": 17
       },
@@ -1311,7 +1328,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "11.2.0-74515",
+      "pluginVersion": "11.3.0-74868",
       "targets": [
         {
           "datasource": {
@@ -1329,6 +1346,118 @@
         }
       ],
       "title": "Average duration in ms",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS_THEGYM-PROMETHEUS-15S}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "{app=\"chameleon\", instance=\"127.0.0.1:3000\", job=\"chameleon/frontend\", route=\"/app/update\", service=\"nodeserver\", status=\"503\"}"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 10,
+        "x": 14,
+        "y": 17
+      },
+      "id": 21,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.3.0-74868",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_THEGYM-PROMETHEUS-15S}"
+          },
+          "editorMode": "code",
+          "expr": "http_request_duration_ms_count{status=~\"[45].*\"} or vector(0)",
+          "legendFormat": "{{route}}, {{status}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "HTTP errors per minute",
       "type": "timeseries"
     },
     {
@@ -1353,7 +1482,7 @@
         "sortOrder": "Descending",
         "wrapLogMessage": false
       },
-      "pluginVersion": "11.2.0-74515",
+      "pluginVersion": "11.3.0-74868",
       "targets": [
         {
           "datasource": {
@@ -1391,7 +1520,7 @@
         "sortOrder": "Descending",
         "wrapLogMessage": false
       },
-      "pluginVersion": "11.2.0-74515",
+      "pluginVersion": "11.3.0-74868",
       "targets": [
         {
           "datasource": {
@@ -1426,8 +1555,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1458,7 +1586,7 @@
         "frameIndex": 1,
         "showHeader": true
       },
-      "pluginVersion": "11.2.0-74515",
+      "pluginVersion": "11.3.0-74868",
       "targets": [
         {
           "datasource": {
@@ -1521,13 +1649,13 @@
     "list": []
   },
   "time": {
-    "from": "now-5m",
+    "from": "now-15m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Pita Serverless CockroachDB",
   "uid": "edupj18l2hypsf",
-  "version": 92,
+  "version": 104,
   "weekStart": ""
 }

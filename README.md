@@ -222,4 +222,9 @@ In contrast, this is how it should like (Billable container instance time 0)
 
 ---
 
+Here's a screenshot of how a dashboard with metrics, logs, traces and CockroachDB data could look like:
+![](imgs/grafana.png)
+
+---
+
 Hope this is a help when you build your next lightly used high available app with ci/cd and o11y for free!
