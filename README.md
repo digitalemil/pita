@@ -17,6 +17,9 @@ As you can see: No credit card required and for zero dollars you can roughly exe
 ---
 
 ![](https://github.com/digitalemil/pita/blob/main/imgs/cockroachcloudfree.png)  
+
+---
+
 Let's continue with our shopping list:  
 \- Developer tooling & IDE: Google Cloud Shell  
 \- Repo: Github  
@@ -26,6 +29,8 @@ Let's continue with our shopping list:
 \- Authentication: Sign In With Google, CockroachDB as backend  
 \- Runtime: Google Cloud Run   
 \- Database: Clockroach Cloud Free Tier
+
+---
 
 So what we get for free looks like the following:  
 ![](https://github.com/digitalemil/pita/blob/main/imgs/pita.drawio.png)
@@ -57,7 +62,7 @@ After setting up your database, create a new Cloud Run service (you might be ask
 ---
 
 Also make sure you pick a CO2 friendly region. 
-![](https://github.com/digitalemil/pita/blob/main/imgs/grafana-region.png =x512)       
+<img src="https://github.com/digitalemil/pita/blob/main/imgs/grafana-region.png" width="480">       
 
 ---
 
@@ -182,7 +187,7 @@ Define your environment variables:
 ![](imgs/clour-run-env.png)
 I personally would prefer to store tokens and passwords as secrets but then we leave the free tier of Google Cloud so I stick with environment variables.
 
-Before I forget: If you also would like to use Sign In with Google you need a consent screen and oauth client. Please see Google's docs on this. Here some screenshots to guide you along:
+Before I forget: If you also would like to use Sign In with Google you need a consent screen and oauth client. Please see Google's docs on this. Here are some screenshots to guide you along:
 ![](imgs/oauthconsent.png)
 
 ---
@@ -215,4 +220,6 @@ This is screenshot from a Cloud Run service which I unfortunately had runnung wi
 In contrast, this is how it should like (Billable container instance time 0)
 ![](imgs/cloud-run-good.png)
 
-Hope this is helpful!
+---
+
+Hope this is a help when you build your next lightly used high available app with ci/cd and o11y for free!
