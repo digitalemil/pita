@@ -14,8 +14,8 @@ const wlogger = winston.createLogger({
   format: winston.format.simple(),
   defaultMeta: {},
   transports: [
-    new winston.transports.File({ filename: process.env.LOGFOLDER + '/error.log', level: 'error' }),
-    new winston.transports.File({ filename: process.env.LOGFOLDER + '/combined.log' }),
+    new winston.transports.File({ filename: globalThis.process.env.LOGFOLDER + '/error.log', level: 'error' }),
+    new winston.transports.File({ filename: globalThis.process.env.LOGFOLDER + '/combined.log' }),
     new winston.transports.Console({format: winston.format.simple()})
   ],
 });
@@ -32,10 +32,10 @@ global.logger = wlogger;
 wlogger.log("info", "Starting on port: 3333");
 app.use(loggermw);
 
-wlogger.log("info", "Environment= " + process.env.ENV)
+wlogger.log("info", "Environment= " + globalThis.process.env.ENV)
 
 const prom_client = require('prom-client');
-const defaultLabels = { component: 'appserver', app: process.env.APP };
+const defaultLabels = { component: 'appserver', app: globalThis.process.env.APP };
 const register = prom_client.register;
 register.setDefaultLabels(defaultLabels);
 

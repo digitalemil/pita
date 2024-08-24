@@ -146,11 +146,11 @@ router.get('/app/pita.html', async function (req, res, next) {
    setTimeout(global.sleepRequest, 10);  
  });  
  global.sleepRequest\= async function () {   
- await axios.get(process.env.SLEEPURL);  
+ await axios.get(globalThis.process.env.SLEEPURL);  
 }
 
 router.get("/sleep", async function (req, res, next) {  
- await sleep(process.env.SLEEP)  
+ await sleep(globalThis.process.env.SLEEP)  
  res.send("ok");  
 });
 

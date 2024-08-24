@@ -13,7 +13,7 @@ router.get('/app/pita.html', async function (req, res, next) {
 
 router.get("/", function (req, res, next) {
   let start = new Date();
-  res.render("index", { img: "true" == process.env.BLACK ? "images/rosenoir.png" : "images/rose.png", contentbackgroundcolor: "true" == process.env.BLACK ? "#808080" : process.env.CONTENTBACKGROUNDCOLOR, text_color: process.env.TEXT_COLOR, title: process.env.TITLE, welcome: process.env.WELCOME });
+  res.render("index", { img: "true" == globalThis.process.env.BLACK ? "images/rosenoir.png" : "images/rose.png", contentbackgroundcolor: "true" == globalThis.process.env.BLACK ? "#808080" : globalThis.process.env.CONTENTBACKGROUNDCOLOR, text_color: globalThis.process.env.TEXT_COLOR, title: globalThis.process.env.TITLE, welcome: globalThis.process.env.WELCOME });
   global.httpRequestDurationMilliseconds
     .labels(req.route.path, res.statusCode, req.method)
     .observe(new Date() - start);
@@ -21,7 +21,7 @@ router.get("/", function (req, res, next) {
 
 router.get("/nouser", function (req, res, next) {
   let start = new Date();
-  res.render("nouser", { title: process.env.TITLE });
+  res.render("nouser", { title: globalThis.process.env.TITLE });
   global.httpRequestDurationMilliseconds
     .labels(req.route.path, res.statusCode, req.method)
     .observe(new Date() - start);
@@ -29,11 +29,11 @@ router.get("/nouser", function (req, res, next) {
 
 
 global.sleepRequest= async function () {  
-  await axios.get(process.env.SLEEPURL);
+  await axios.get(globalThis.process.env.SLEEPURL);
 }
 
 router.get("/sleep", async function (req, res, next) {
-  await sleep(process.env.SLEEP)
+  await sleep(globalThis.process.env.SLEEP)
   res.send("ok");
  });
 

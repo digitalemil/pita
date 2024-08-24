@@ -2,7 +2,7 @@ const { forEach } = require("async");
 const pg = require("pg");
 const prom_client = require("prom-client");
 
-const connectionString = process.env.DATABASE_CONNECTIONSTRING;
+const connectionString = globalThis.process.env.DATABASE_CONNECTIONSTRING;
 const cp = new pg.Pool({
     connectionString,
     max: 8

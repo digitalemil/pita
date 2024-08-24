@@ -10,18 +10,18 @@ let config;
 let store;
 
 try {
-    config = JSON.parse(process.env.CONFIG);
+    config = JSON.parse(globalThis.process.env.CONFIG);
 }
 catch (ex) {
     if (config == undefined) {
-        console.log("error", "No CONFIG or broken: " + process.env.CONFIG);
+        console.log("error", "No CONFIG or broken: " + globalThis.process.env.CONFIG);
     }
     config = { "OAUTH2_CLIENT_ID": "none", "OAUTH2_CLIENT_SECRET": "xxx", "OAUTH2_CALLBACK": "http://localhost:3000/auth/google/callback" }
 }
 
 function requireHTTPS(req, res, next) {
     // The 'x-forwarded-proto' check is for Heroku
-    if (!req.secure && req.get('x-forwarded-proto') !== 'https' && process.env.NODE_ENV !== "development") {
+    if (!req.secure && req.get('x-forwarded-proto') !== 'https' && globalThis.process.env.NODE_ENV !== "development") {
         return res.redirect('https://' + req.get('host') + req.url);
     }
     next();
