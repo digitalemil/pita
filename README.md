@@ -1,18 +1,18 @@
 
 ![](https://github.com/digitalemil/pita/blob/main/app/public/images/pita256.png)  
 
-# Welcome to Pita\!
+# Welcome to Pita!
 
 # Ever wanted to run an app like a pro but for (nearly) free?
 
-Disclaimer: Screenshots of free tiers are taken in August 2024\. Check for changes before deploying. Author of this repo is not responsible for any costs occurring through using any of the material in this repo. The document solely describes the author’s experience with free cloud offerings.
+Disclaimer: Screenshots of free tiers are taken in August 2024. Check for changes before deploying. Author of this repo is not responsible for any costs occurring through using any of the material in this repo. The document solely describes the author’s experience with free cloud offerings.
 
 Why the name Pita? That’s a longer discussion. For now just so much: I love sourdough, and the fact I recently migrated this app from node ton bun has nothing to do with it. 
 
 Anyway, over the last past years I gained quite a bit of experience with architecting, developing, running and managing lightly used applications basically for free. By "lightly used" I'm referring to the amount of work like transactions or HTTP requests they serve and by "free" I mean for a handful of cents per day max. While the applications are not used heavily they don't want to compromise on professionalism. They deserve proper ci/cd, observability and most importantly high availability and resilience. 
 
 Nowadays it all starts with data, right? So we can't compromise on our data-layer. Therefor I choose CockroachDB and luckily there is a free tier available: https://cockroachlabs.cloud/signup 
-As you can see: No credit card required and for zero dollars you can roughly execute 10 SQL queries/s 24 by 7\. Great\! Love it. Way more than most of my light apps need and the distributed nature of CockroachDB guarantees the high-availability and resilience of my data layer. Also pretty cool to have a RDBMS always available with a SQL-shell ready waiting for you if you quickly want to test a query\! Data-layer? Solved.
+As you can see: No credit card required and for zero dollars you can roughly execute 10 SQL queries/s 24 by 7. Great! Love it. Way more than most of my light apps need and the distributed nature of CockroachDB guarantees the high-availability and resilience of my data layer. Also pretty cool to have a RDBMS always available with a SQL-shell ready waiting for you if you quickly want to test a query! Data-layer? Solved.
 
 ---
 
@@ -21,14 +21,14 @@ As you can see: No credit card required and for zero dollars you can roughly exe
 ---
 
 Let's continue with our shopping list:  
-\- Developer tooling & IDE: Google Cloud Shell  
-\- Repo: Github  
-\- Observability: Grafana Cloud for metrics, logs & traces  
-\- Synthetic monitoring: Grafana Cloud  
-\- CI/CD: Google Cloud Build  
-\- Authentication: Sign In With Google, CockroachDB as backend  
-\- Runtime: Google Cloud Run   
-\- Database: Clockroach Cloud Free Tier
+- Developer tooling & IDE: Google Cloud Shell  
+- Repo: Github  
+- Observability: Grafana Cloud for metrics, logs & traces  
+- Synthetic monitoring: Grafana Cloud  
+- CI/CD: Google Cloud Build  
+- Authentication: Sign In With Google, CockroachDB as backend  
+- Runtime: Google Cloud Run   
+- Database: Clockroach Cloud Free Tier
 
 ---
 
@@ -70,9 +70,9 @@ You might wonder why Google Cloud shell? I just love it. A (8GB) VM with most de
 
 ![](https://storage.googleapis.com/thegym-public/googlecloudshell.png)
 
-Should you sign-up to Google Cloud just now, be advised that your clock for the 3 month credits is ticking. The setup outlined here should not tap into the credits so use them for other experiments\!
+Should you sign-up to Google Cloud just now, be advised that your clock for the 3 month credits is ticking. The setup outlined here should not tap into the credits so use them for other experiments!
 
-Advice: Setup a budget and budget alerts\! This is available under “Billing” in the GCP console. 
+Advice: Setup a budget and budget alerts! This is available under “Billing” in the GCP console. 
 
 After signing up to all the services required and if you are ready to roll, fire up your IDE or cloud shell and start building your app and a Dockerfile for it. Commit it to github. 
 
@@ -127,15 +127,15 @@ And then the above references start.sh script looks like this:
 cd /opt/app  
 /usr/sbin/nginx
 
-/opt/app/grafana-agent-linux-amd64  -config.expand-env -enable-features integrations-next --config.file /opt/app/grafana-agent-config.yam >$LOGFOLDER/grafana.log 2>&1 & $LOGFOLDER/grafana.log 2\>&1 &
+/opt/app/grafana-agent-linux-amd64  -config.expand-env -enable-features integrations-next --config.file /opt/app/grafana-agent-config.yaml >$LOGFOLDER/grafana.log 2>&1 & $LOGFOLDER/grafana.log 2>&1 &
 
-bun run \--preload @opentelemetry/auto-instrumentations-node/register ./bin/www.js
+bun run --preload @opentelemetry/auto-instrumentations-node/register ./bin/www.js
    ```  
 ---
 
 The script starts nginx using our configuration which Docker copied to /etc/nginx/nginx.conf and then starts the Grafana agent before finally starting our application with the open telemetry auto-instrumentation. Should you use something else than node the start of your application obviously looks different. Talking about Grafana don't forget to create a Postgres datasource and connect it to your CockroachDB instance so you can enhance your metric dashboards with content from your database. In my case the number of pitas which I don't have as a metric but a Select count(*) from Pita does the trick obviously.
 
-Now what makes Cloud Run run so efficiently that it can be offered by Google for free (within it’s limits) is the fact that it scales down to zero when not used. No request being worked on by the app, no CPU. This makes things a bit tough with our Grafana agent which should collect metrics every 15s because it might not be on CPU. Therefore I do a bit of a trick in my app: Whenever I’m done handling a request the application starts another request asynchronously which just sleeps for a bit more than the metrics collection interval. 15s in my case which gives the Grafana agent enough CPU to collect metrics at least once after each request. Neat trick, isn’t it? Which also means no request at all: No metrics either. One option is set up a synthetic transaction in Grafana Cloud to access our app once per metrics collection interval. Which should result in metrics being collected 24 by 7. Clearly this could incure cost therefor I rather perfer having no metrics in phases with no activity. That's also the reason why in my Grafana dashboards I don't use the rate of metrics but the pure value. For light use applications prometheus' rate function provide to much insight if you ask me.\. 
+Now what makes Cloud Run run so efficiently that it can be offered by Google for free (within it’s limits) is the fact that it scales down to zero when not used. No request being worked on by the app, no CPU. This makes things a bit tough with our Grafana agent which should collect metrics every 15s because it might not be on CPU. Therefore I do a bit of a trick in my app: Whenever I’m done handling a request the application starts another request asynchronously which just sleeps for a bit more than the metrics collection interval. 15s in my case which gives the Grafana agent enough CPU to collect metrics at least once after each request. Neat trick, isn’t it? Which also means no request at all: No metrics either. One option is set up a synthetic transaction in Grafana Cloud to access our app once per metrics collection interval. Which should result in metrics being collected 24 by 7. Clearly this could incure cost therefor I rather perfer having no metrics in phases with no activity. That's also the reason why in my Grafana dashboards I don't use the rate of metrics but the pure value. For light use applications prometheus' rate function provide to much insight if you ask me.
    ```  
 router.get('/app/pita.html', async function (req, res, next) {  
    let start = new Date();  
@@ -177,9 +177,9 @@ When you define your service in Cloud run you will be asked to provide Google Cl
 
 Watch out for the following:
 ![](imgs/cloud-run-settings-with-arrows.png)
-\- Maximum concurrent requests per instance 8 (any low number will prevent from high costs in case of a DOS attack)
-\- CPU only allocated during request processing
-\- Maximum number of instances 1
+- Maximum concurrent requests per instance 8 (any low number will prevent from high costs in case of a DOS attack)
+- CPU only allocated during request processing
+- Maximum number of instances 1
 
 ---
 
