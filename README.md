@@ -91,9 +91,9 @@ The app is obvious, the Grafana agent for convenience. You could alternatively b
 
    server {  
        listen 0.0.0.0:3000;  
-       proxy\_set\_header x-cloud-trace-context "";  
-       proxy\_set\_header grpc-trace-bin "";  
-       proxy\_set\_header traceparent "";  
+       proxy_set_header x-cloud-trace-context "";  
+       proxy_set_header grpc-trace-bin "";  
+       proxy_set_header traceparent "";  
    ```
 
 My Dockerfile basically looks like this:  
@@ -105,16 +105,16 @@ RUN apt-get install --yes nginx curl unzip
 
 WORKDIR /opt/app
 
-RUN curl \-LJO https://github.com/grafana/agent/releases/download/v0.39.0-rc.0/grafana-agent-linux-amd64.zip  
+RUN curl -LJO https://github.com/grafana/agent/releases/download/v0.39.0-rc.0/grafana-agent-linux-amd64.zip  
 RUN unzip grafana-agent-linux-amd64.zip  
-RUN chmod \+x grafana-agent-linux-amd64.zip
+RUN chmod +x grafana-agent-linux-amd64.zip
 
 COPY app.js /opt/app  
-\# Omitted: Copy rest of app  
+# Omitted: Copy rest of app  
 COPY nginx.conf /etc/nginx/nginx.conf  
 COPY grafana-agent-config.yaml /opt/app
 
-RUN chmod \+x /opt/app/start.sh
+RUN chmod +x /opt/app/start.sh
 
 RUN cd /opt/app; bun install
 
@@ -127,7 +127,7 @@ And then the above references start.sh script looks like this:
 cd /opt/app  
 /usr/sbin/nginx
 
-/opt/app/grafana-agent-linux-amd64  \-config.expand-env \-enable-features integrations-next \--config.file /opt/app/grafana-agent-config.yaml  \> $LOGFOLDER/grafana.log 2\>&1 &
+/opt/app/grafana-agent-linux-amd64  -config.expand-env -enable-features integrations-next --config.file /opt/app/grafana-agent-config.yam >$LOGFOLDER/grafana.log 2>&1 & $LOGFOLDER/grafana.log 2\>&1 &
 
 bun run \--preload @opentelemetry/auto-instrumentations-node/register ./bin/www.js
    ```  
@@ -138,14 +138,14 @@ The script starts nginx using our configuration which Docker copied to /etc/ngin
 Now what makes Cloud Run run so efficiently that it can be offered by Google for free (within it’s limits) is the fact that it scales down to zero when not used. No request being worked on by the app, no CPU. This makes things a bit tough with our Grafana agent which should collect metrics every 15s because it might not be on CPU. Therefore I do a bit of a trick in my app: Whenever I’m done handling a request the application starts another request asynchronously which just sleeps for a bit more than the metrics collection interval. 15s in my case which gives the Grafana agent enough CPU to collect metrics at least once after each request. Neat trick, isn’t it? Which also means no request at all: No metrics either. One option is set up a synthetic transaction in Grafana Cloud to access our app once per metrics collection interval. Which should result in metrics being collected 24 by 7. Clearly this could incure cost therefor I rather perfer having no metrics in phases with no activity. That's also the reason why in my Grafana dashboards I don't use the rate of metrics but the pure value. For light use applications prometheus' rate function provide to much insight if you ask me.\. 
    ```  
 router.get('/app/pita.html', async function (req, res, next) {  
-   let start \= new Date();  
+   let start = new Date();  
    res.render('pita', { user: global.getUser(req)});  
    global.httpRequestDurationMilliseconds  
      .labels(req.route.path, res.statusCode, req.method)  
-     .observe(new Date() \- start);  
+     .observe(new Date() - start);  
    setTimeout(global.sleepRequest, 10);  
  });  
- global.sleepRequest\= async function () {   
+ global.sleepRequest= async function () {   
  await axios.get(globalThis.process.env.SLEEPURL);  
 }
 
@@ -155,7 +155,7 @@ router.get("/sleep", async function (req, res, next) {
 });
 
 async function sleep(ms) {  
- return new Promise((resolve) \=\> {  
+ return new Promise((resolve) => {  
    setTimeout(resolve, ms);  
  });  
 };  
