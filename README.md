@@ -145,8 +145,16 @@ router.get('/app/pita.html', async function (req, res, next) {
      .observe(new Date() - start);  
    setTimeout(global.sleepRequest, 10);  
  });  
- global.sleepRequest= async function () {   
- await axios.get(globalThis.process.env.SLEEPURL);  
+
+global.sleepRequest= async function () {   
+  if(globalThis.process.env.SLEEPURL.startsWith("http")) {
+    try {
+      await axios.get(globalThis.process.env.SLEEPURL);
+    }
+    catch(err) {
+      global.logger.log("error", "Can access sleep URL: "+globalThis.process.env.SLEEPURL+" "+err);
+    }
+  }
 }
 
 router.get("/sleep", async function (req, res, next) {  
