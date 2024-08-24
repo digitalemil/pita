@@ -86,7 +86,7 @@ The app is obvious, the Grafana agent for convenience. You could alternatively b
    ```
    upstream app {
         ip_hash;
-        server 127.0.0.1:3333 max_fails=0 fail_timeout=2s;
+        server 127.0.0.1:3333;
     }
 
    server {  
@@ -211,6 +211,11 @@ After you deployed a new version it might take nginx a minute or so to figure ou
 ![](imgs/bad-gateway.png)
 Shortly after you will be served a pita:
 ![](imgs/pita.png)
+
+---
+
+A way to at least reduce the 502 error messages is to point Cloud Run's startup and liveness probe the app itself not the nginx instance in front of it. In my case nginx listens on port 3000, but the app on 3333, therefore the probes look like this:
+![](imgs/startup-probe.png)
 
 ---
 
