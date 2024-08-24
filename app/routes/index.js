@@ -29,7 +29,14 @@ router.get("/nouser", function (req, res, next) {
 
 
 global.sleepRequest= async function () {  
-  await axios.get(globalThis.process.env.SLEEPURL);
+  if(globalThis.process.env.SLEEPURL.startsWith("http")) {
+    try {
+    await axios.get(globalThis.process.env.SLEEPURL);
+    }
+    catch(err) {
+      global.logger.log("error", "Can access sleep URL: "+globalThis.process.env.SLEEPURL+" "+err);
+    }
+  }
 }
 
 router.get("/sleep", async function (req, res, next) {
