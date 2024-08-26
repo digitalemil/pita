@@ -84,7 +84,7 @@ Advice: Setup a budget and budget alerts! This is available under “Billing” 
 
 After signing up to all the services required and if you are ready to roll, fire up your IDE or cloud shell and start building your app and a Dockerfile for it. Commit it to github. 
 
-Talking about Docker``` I know it’s not the purist’s vision but for our purposes we need to actually run more than one process in the container:
+Talking about Docker: I know it’s not the purist’s vision but for our purposes we need to actually run more than one process in the container:
 
 1. Your app  
 2. The Grafana agent (now known under the name Alloy)  
