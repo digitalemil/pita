@@ -240,4 +240,16 @@ Here's a screenshot of how a dashboard with metrics, logs, traces and CockroachD
 
 ---
 
+To be able to query your CockroachDB instance in Grafana dashboards you need to create a new datasource. The postgres one will just do fine because of the super high compatibility between CockroachDB and Postgres. 
+
+![](imgs/add-datasource.png)
+
+---
+
+Fill in your Cockroach Cloud instance details (host URL, database name, username and password). You don't need to provide certificates, just leave as it is but don't forget to add the port to the host URL (e.g. hfkjhe-72487.8nj.gcp-europe-west1.cockroachlabs.cloud:26257). Postgres' default port 5432 is different from CockroachDB's 26257. 
+
+![](imgs/datasource-details.png)
+
+---
+
 Hope this is a help when you build your next lightly used high available app with ci/cd and o11y for free!
