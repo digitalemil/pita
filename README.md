@@ -68,7 +68,15 @@ Also make sure you pick a CO2 friendly region.
 
 You might wonder why Google Cloud shell? I just love it. A (8GB) VM with most developer tools always waiting for you. You can even run a minikube cluster in it. Would love to see a Cockroachdb pre-installed though. But given CockroachDB is a single binary it’s a trivial download & installation should I need a local one. Having said that, I use the cloud version most of the time anyway. Back to Google Cloud Shell: By using it for this exercise all we need is a browser. Cloud shell requires you to have a free Google Mail account though.  
 
-![](https://storage.googleapis.com/thegym-public/googlecloudshell.png)
+![](imgs/googlecloudshell.png)
+
+---
+
+Selfie of me hacking the day away in Google's Cloud shell's editor, ready to commit and to trigger the ci/cd pipeline we are going to create.
+
+![](imgs/cloudshelleditor.png)
+
+---
 
 Should you sign-up to Google Cloud just now, be advised that your clock for the 3 month credits is ticking. The setup outlined here should not tap into the credits so use them for other experiments!
 
