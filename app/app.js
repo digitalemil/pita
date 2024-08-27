@@ -9,7 +9,7 @@ let fs = require('fs');
 const dns = require('node:dns');
 const os = require('node:os');
 
-const options = { family: 4 };
+const options = { family: 6 };
 
 let myself= "";
 
