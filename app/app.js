@@ -39,6 +39,7 @@ app.use(
       if (globalThis.process.env.SLEEPURL.startsWith("http") && !sleepinprogress && req.url != '/sleep') {
         sleepinprogress= true;
         try {
+          global.logger.log("info", "Getting SLEEPURL");
           axios.get(globalThis.process.env.SLEEPURL);
         }
         catch (err) {
