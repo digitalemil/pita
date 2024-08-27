@@ -143,39 +143,39 @@ bun run --preload @opentelemetry/auto-instrumentations-node/register ./bin/www.j
 
 The script starts nginx using our configuration which Docker copied to /etc/nginx/nginx.conf and then starts the Grafana agent before finally starting our application with the open telemetry auto-instrumentation. Should you use something else than node the start of your application obviously looks different. Talking about Grafana don't forget to create a Postgres datasource and connect it to your CockroachDB instance so you can enhance your metric dashboards with content from your database. In my case the number of pitas which I don't have as a metric but a Select count(*) from Pita does the trick obviously.
 
-Now what makes Cloud Run run so efficiently that it can be offered by Google for free (within it’s limits) is the fact that it scales down to zero when not used. No request being worked on by the app, no CPU. This makes things a bit tough with our Grafana agent which should collect metrics every 15s because it might not be on CPU. Therefore I do a bit of a trick in my app: Whenever I’m done handling a request the application starts another request asynchronously which just sleeps for a bit more than the metrics collection interval. 15s in my case which gives the Grafana agent enough CPU to collect metrics at least once after each request. Neat trick, isn’t it? Which also means no request at all: No metrics either. One option is set up a synthetic transaction in Grafana Cloud to access our app once per metrics collection interval. Which should result in metrics being collected 24 by 7. Clearly this could incure cost therefor I rather perfer having no metrics in phases with no activity. That's also the reason why in my Grafana dashboards I don't use the rate of metrics but the pure value. For light use applications prometheus' rate function provide to much insight if you ask me.
-   ```  
-router.get('/app/pita.html', async function (req, res, next) {  
-   let start = new Date();  
-   res.render('pita', { user: global.getUser(req)});  
-   global.httpRequestDurationMilliseconds  
-     .labels(req.route.path, res.statusCode, req.method)  
-     .observe(new Date() - start);  
-   setTimeout(global.sleepRequest, 10);  
- });  
+Now what makes Cloud Run run so efficiently that it can be offered by Google for free (within it’s limits) is the fact that it scales down to zero when not used. No request being worked on by the app, no CPU. This makes things a bit tough with our Grafana agent which should collect metrics every 15s because it might not be on CPU. Therefore I do a bit of a trick in my app: Whenever I’m done handling a request the application starts another request asynchronously which just sleeps for a bit more than the metrics collection interval. 15s in my case which gives the Grafana agent enough CPU to collect metrics at least once after each request. See the middleware I use below. Neat trick, isn’t it? Which also means no request at all: No metrics either. One option is set up a synthetic transaction in Grafana Cloud to access our app once per metrics collection interval. Which should result in metrics being collected 24 by 7. Clearly this could incure cost therefor I rather perfer having no metrics in phases with no activity. That's also the reason why in my Grafana dashboards I don't use the rate of metrics but the pure value. For light use applications prometheus' rate function provide to much insight if you ask me. I
+```  
+   let sleepinprogress = false;
+   app.use(
+    async function (req, res, next) {
+      if (globalThis.process.env.SLEEPURL.startsWith("http") && !sleepinprogress && req.url != '/sleep') {
+        sleepinprogress= true;
+        try {
+          axios.get(globalThis.process.env.SLEEPURL);
+        }
+        catch (err) {
+          global.logger.log("error", "Can't access sleep URL: " + globalThis.process.env.SLEEPURL + " " + err);
+        }
+      }
+    next();
+  });
 
-global.sleepRequest= async function () {   
-  if(globalThis.process.env.SLEEPURL.startsWith("http")) {
-    try {
-      await axios.get(globalThis.process.env.SLEEPURL);
-    }
-    catch(err) {
-      global.logger.log("error", "Can access sleep URL: "+globalThis.process.env.SLEEPURL+" "+err);
-    }
-  }
-}
+  async function sleep(ms) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, ms);
+    });
+  };
 
-router.get("/sleep", async function (req, res, next) {  
- await sleep(globalThis.process.env.SLEEP)  
- res.send("ok");  
-});
+  let index = require('./routes/index.js');
 
-async function sleep(ms) {  
- return new Promise((resolve) => {  
-   setTimeout(resolve, ms);  
- });  
-};  
-   ```  
+  index.get('/sleep', async (req, res, next) => {
+    await sleep(globalThis.process.env.SLEEP);
+    sleepinprogress = false;
+    global.logger.log("info", "Woke up.");
+    res.send("ok");
+  });
+```
+  
 ---
 
 When you define your service in Cloud run you will be asked to provide Google Cloud with access to your repo:
@@ -232,6 +232,10 @@ Shortly after you will be served a pita:
 
 A way to at least reduce the 502 error messages is to point Cloud Run's startup and liveness probe the app itself not the nginx instance in front of it. In my case nginx listens on port 3000, but the app on 3333, therefore the probes look like this:
 ![](imgs/startup-probe.png)
+
+---
+
+What about a custom domain? The domains and paths created by Cloud Run are hard to remember so we want to link our service to a real domain name. There was a cost neutral way available in Cloud Run but unfortunately that's gone. Now there are integrations in Cloud Run and one is called "Custom domains" which would achieve what we need but it creates a loadbalancer and a static ip and roughly costs a dollar a day. Instead what I am doing is adding a DNS forwarding rule within my DNS/WebSite settings at Squarespace. Basically I tell DNS to forward all requests to subdomain.mydomain.com to the Cloud Run URL. So my Cloud Run serice is reachable under the domain I want for free. Downside: After hitting subdomain.mydomain.com in your browser the URL will be back to the Clour Run provided one: ...a.run.app which is acceptable for me at least.
 
 ---
 

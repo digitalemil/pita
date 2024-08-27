@@ -8,7 +8,6 @@ router.get('/app/pita.html', async function (req, res, next) {
   global.httpRequestDurationMilliseconds
     .labels(req.route.path, res.statusCode, req.method)
     .observe(new Date() - start);
-    setTimeout(global.sleepRequest, 10);
 });
 
 router.get("/", function (req, res, next) {
@@ -26,29 +25,5 @@ router.get("/nouser", function (req, res, next) {
     .labels(req.route.path, res.statusCode, req.method)
     .observe(new Date() - start);
 });
-
-
-global.sleepRequest= async function () {  
-  if(globalThis.process.env.SLEEPURL.startsWith("http")) {
-    try {
-    await axios.get(globalThis.process.env.SLEEPURL);
-    }
-    catch(err) {
-      global.logger.log("error", "Can access sleep URL: "+globalThis.process.env.SLEEPURL+" "+err);
-    }
-  }
-}
-
-router.get("/sleep", async function (req, res, next) {
-  await sleep(globalThis.process.env.SLEEP)
-  res.send("ok");
- });
-
-async function sleep(ms) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-};
-
 
 module.exports = router;
