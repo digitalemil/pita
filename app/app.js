@@ -36,7 +36,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 let sleepinprogress = false;
 app.use(
   async function (req, res, next) {
-      if (globalThis.process.env.SLEEPURL.startsWith("http") && !sleepinprogress && req.url != '/sleep') {
+      if (globalThis.process.env.SLEEPURL.startsWith("http") && !sleepinprogress && req.url != '/sleep' && req.url != '/') {
         sleepinprogress= true;
         try {
           global.logger.log("info", "Getting SLEEPURL");
