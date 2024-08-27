@@ -143,7 +143,7 @@ bun run --preload @opentelemetry/auto-instrumentations-node/register ./bin/www.j
 
 The script starts nginx using our configuration which Docker copied to /etc/nginx/nginx.conf and then starts the Grafana agent before finally starting our application with the open telemetry auto-instrumentation. Should you use something else than node the start of your application obviously looks different. Talking about Grafana don't forget to create a Postgres datasource and connect it to your CockroachDB instance so you can enhance your metric dashboards with content from your database. In my case the number of pitas which I don't have as a metric but a Select count(*) from Pita does the trick obviously.
 
-Now what makes Cloud Run run so efficiently that it can be offered by Google for free (within it’s limits) is the fact that it scales down to zero when not used. No request being worked on by the app, no CPU. This makes things a bit tough with our Grafana agent which should collect metrics every 15s because it might not be on CPU. Therefore I do a bit of a trick in my app: Whenever I’m done handling a request the application starts another request asynchronously which just sleeps for a bit more than the metrics collection interval. 15s in my case which gives the Grafana agent enough CPU to collect metrics at least once after each request. See the middleware I use below. Neat trick, isn’t it? Which also means no request at all: No metrics either. One option is set up a synthetic transaction in Grafana Cloud to access our app once per metrics collection interval. Which should result in metrics being collected 24 by 7. Clearly this could incure cost therefor I rather perfer having no metrics in phases with no activity. That's also the reason why in my Grafana dashboards I don't use the rate of metrics but the pure value. For light use applications prometheus' rate function provide to much insight if you ask me. I
+Now what makes Cloud Run run so efficiently that it can be offered by Google for free (within it’s limits) is the fact that it scales down to zero when not used. No request being worked on by the app, no CPU. This makes things a bit tough with our Grafana agent which should collect metrics every 15s because it might not be on CPU. Therefore I do a bit of a trick in my app: Whenever I’m done handling a request the application starts another request asynchronously which just sleeps for a bit. 4s in my case which normally gives the Grafana agent enough CPU to collect metrics at least once after each request. See the middleware I use below. Neat trick, isn’t it? Which also means no request at all: No metrics either. One option is set up a synthetic transaction in Grafana Cloud to access our app once per metrics collection interval. Which should result in metrics being collected 24 by 7. Clearly this could incure cost therefor I rather perfer having no metrics in phases with no activity. That's also the reason why in my Grafana dashboards I don't use the rate of metrics but the pure value. For light use applications prometheus' rate function provide to much insight if you ask me. I
 ```  
    let sleepinprogress = false;
    app.use(
@@ -175,7 +175,7 @@ Now what makes Cloud Run run so efficiently that it can be offered by Google for
     res.send("ok");
   });
 ```
-  
+
 ---
 
 When you define your service in Cloud run you will be asked to provide Google Cloud with access to your repo:
