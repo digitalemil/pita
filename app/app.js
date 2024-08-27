@@ -6,20 +6,6 @@ const axios = require("axios");
 let url = require('url');
 let http = require('http');
 let fs = require('fs');
-const dns = require('node:dns');
-const os = require('node:os');
-
-const options = { family: 6 };
-
-let myself= "";
-
-dns.lookup(os.hostname(), options, (err, addr) => {
-  if (err) {
-    console.error(err);
-  } else {
-    myself= addr;
-  }
-});
 
 let bodyParser = require('body-parser');
 app = global.app = express();
@@ -73,14 +59,6 @@ async function sleep(ms) {
 let index = require('./routes/index.js');
 
 index.get('/sleep', async (req, res, next) => {
-  let client= req.headers['x-forwarded-for'];
-  global.logger.log("info", "Sleep request from: "+client+" I am: "+myself);
-  if(client!= myself && globalThis.process.env.ENV=== "PROD") {
-    global.logger.log("info", "Sleep request denied.");
-    res.status= 403;
-    res.send("");
-    return;
-  }
   await sleep(globalThis.process.env.SLEEP);
   sleepinprogress = false;
   global.logger.log("info", "Woke up.");
