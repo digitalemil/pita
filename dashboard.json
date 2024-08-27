@@ -499,39 +499,6 @@
       "type": "canvas"
     },
     {
-      "gridPos": {
-        "h": 6,
-        "w": 10,
-        "x": 14,
-        "y": 0
-      },
-      "id": 41,
-      "options": {
-        "alertInstanceLabelFilter": "",
-        "alertName": "",
-        "dashboardAlerts": false,
-        "folder": {
-          "title": "Les Fleurs",
-          "uid": "b000125b-db52-40f5-847f-3b0b4d2f9d2f"
-        },
-        "groupBy": [],
-        "groupMode": "default",
-        "maxItems": 20,
-        "sortOrder": 1,
-        "stateFilter": {
-          "error": true,
-          "firing": true,
-          "noData": false,
-          "normal": false,
-          "pending": true
-        },
-        "viewMode": "list"
-      },
-      "pluginVersion": "11.3.0-74868",
-      "title": "Alerts",
-      "type": "alertlist"
-    },
-    {
       "datasource": {
         "type": "grafana-postgresql-datasource",
         "uid": "${DS_COCKROACHDB_PITA SERVERLESS}"
@@ -562,7 +529,7 @@
         "h": 4,
         "w": 5,
         "x": 14,
-        "y": 6
+        "y": 0
       },
       "id": 33,
       "options": {
@@ -648,7 +615,7 @@
         "h": 4,
         "w": 5,
         "x": 19,
-        "y": 6
+        "y": 0
       },
       "id": 38,
       "options": {
@@ -701,6 +668,135 @@
       ],
       "title": "Pita Users",
       "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "${DS_COCKROACHDB_PITA SERVERLESS}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 10,
+        "x": 14,
+        "y": 4
+      },
+      "id": 44,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.3.0-74868",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS_COCKROACHDB_PITA SERVERLESS}"
+          },
+          "editorMode": "code",
+          "format": "time_series",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "SELECT\n  $__timeGroupAlias(\"createdon\",'1m',0),\n  count(id) as id\nFROM pita\nWHERE\n  $__timeFilter(\"createdon\")\nGROUP BY time\nORDER BY time ",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "id",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "parameters": [
+                  {
+                    "name": "createdon",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "pita"
+        }
+      ],
+      "title": "Created Pitas",
+      "type": "timeseries"
     },
     {
       "datasource": {
@@ -1053,8 +1149,8 @@
     },
     {
       "datasource": {
-        "type": "grafana-postgresql-datasource",
-        "uid": "${DS_COCKROACHDB_PITA SERVERLESS}"
+        "type": "prometheus",
+        "uid": "${DS_THEGYM-PROMETHEUS-15S}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1079,13 +1175,13 @@
             },
             "insertNulls": false,
             "lineInterpolation": "linear",
-            "lineWidth": 2,
+            "lineWidth": 1,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
             },
             "showPoints": "auto",
-            "spanNulls": false,
+            "spanNulls": true,
             "stacking": {
               "group": "A",
               "mode": "none"
@@ -1117,7 +1213,7 @@
         "x": 14,
         "y": 10
       },
-      "id": 44,
+      "id": 46,
       "options": {
         "legend": {
           "calcs": [],
@@ -1134,50 +1230,22 @@
       "targets": [
         {
           "datasource": {
-            "type": "grafana-postgresql-datasource",
-            "uid": "${DS_COCKROACHDB_PITA SERVERLESS}"
+            "type": "prometheus",
+            "uid": "${DS_THEGYM-PROMETHEUS-15S}"
           },
+          "disableTextWrap": false,
           "editorMode": "code",
-          "format": "time_series",
-          "hide": false,
-          "rawQuery": true,
-          "rawSql": "SELECT\n  $__timeGroupAlias(\"createdon\",'1m',0),\n  count(id) as id\nFROM pita\nWHERE\n  $__timeFilter(\"createdon\")\nGROUP BY time\nORDER BY time ",
+          "expr": "sum(sql_query_duration_ms_sum) / sum(sql_query_duration_ms_count)",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": true,
+          "legendFormat": "Avg. of all queries",
+          "range": true,
           "refId": "A",
-          "sql": {
-            "columns": [
-              {
-                "parameters": [
-                  {
-                    "name": "id",
-                    "type": "functionParameter"
-                  }
-                ],
-                "type": "function"
-              },
-              {
-                "parameters": [
-                  {
-                    "name": "createdon",
-                    "type": "functionParameter"
-                  }
-                ],
-                "type": "function"
-              }
-            ],
-            "groupBy": [
-              {
-                "property": {
-                  "type": "string"
-                },
-                "type": "groupBy"
-              }
-            ],
-            "limit": 50
-          },
-          "table": "pita"
+          "useBackend": false
         }
       ],
-      "title": "Created Pitas",
+      "title": "Average SQL query response time",
       "type": "timeseries"
     },
     {
@@ -1524,7 +1592,7 @@
             "uid": "${DS_GRAFANACLOUD-DIGITALEMIL-LOGS}"
           },
           "editorMode": "builder",
-          "expr": "{app=\"pita\"} |= ``",
+          "expr": "{app=\"pita\", component=\"appserver\", filename=\"/tmp/combined.log\"} |= ``",
           "queryType": "range",
           "refId": "A"
         }
@@ -1589,8 +1657,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1675,6 +1742,39 @@
       ],
       "title": "Traces",
       "type": "table"
+    },
+    {
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 51
+      },
+      "id": 41,
+      "options": {
+        "alertInstanceLabelFilter": "",
+        "alertName": "",
+        "dashboardAlerts": false,
+        "folder": {
+          "title": "Les Fleurs",
+          "uid": "b000125b-db52-40f5-847f-3b0b4d2f9d2f"
+        },
+        "groupBy": [],
+        "groupMode": "default",
+        "maxItems": 20,
+        "sortOrder": 1,
+        "stateFilter": {
+          "error": true,
+          "firing": true,
+          "noData": false,
+          "normal": false,
+          "pending": true
+        },
+        "viewMode": "list"
+      },
+      "pluginVersion": "11.3.0-74868",
+      "title": "Alerts",
+      "type": "alertlist"
     }
   ],
   "refresh": "5s",
@@ -1684,13 +1784,13 @@
     "list": []
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-30m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Pita Serverless CockroachDB",
   "uid": "edupj18l2hypsf",
-  "version": 118,
+  "version": 125,
   "weekStart": ""
 }
