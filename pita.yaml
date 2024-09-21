@@ -1,27 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: thegym
+  name: pita
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: thegym
+      app: pita
       component: appserver  
   template:
     metadata:
-      name: thegym
+      name: pita
       annotations:
         prometheus.io/scrape: 'true'
         prometheus.io/path: '_status/vars'
         prometheus.io/port: '3000'       
       labels:
-        app: thegym
+        app: pita
         component: appserver  
     spec:
       containers:
-      - name: thegym
-        image: digitalemil/sourdough:thegym-vlatest
+      - name: pita
+        image: digitalemil/sourdough:pita-vlatest
         imagePullPolicy: Always
         env:
         - name: PORT
@@ -88,10 +88,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: thegym
+  name: pita
 spec:
   selector:
-    app: thegym
+    app: pita
     component: appserver 
   ports:
     - port: 3000
