@@ -62,6 +62,8 @@ spec:
           value: "$OTEL_TRACES_EXPORTER"
         - name: OTEL_EXPORTER_OTLP_INSECURE
           value: "$OTEL_EXPORTER_OTLP_INSECURE"
+        - name: SLEEPURL
+          value: "$SLEEPURL"
         ports:
         - containerPort: 3000
         volumeMounts:
